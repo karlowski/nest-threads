@@ -9,6 +9,8 @@ import { AuthModule } from './auth/auth.module';
 import { User } from './users/user.entity';
 import { PostsModule } from './posts/posts.module';
 import { UserPost } from './posts/post.entity';
+import { CommentsModule } from './comments/comments.module';
+import { UserComment } from './comments/comment.entity';
 
 @Module({
   imports: [
@@ -24,10 +26,11 @@ import { UserPost } from './posts/post.entity';
       username: process.env.MYSQL_DB_USERNAME,
       password: process.env.MYSQL_DB_PASSWORD,
       database: process.env.MYSQL_DB,
-      entities: [User, UserPost],
+      entities: [User, UserPost, UserComment],
       synchronize: false
     }),
-    PostsModule
+    PostsModule,
+    CommentsModule
   ],
   controllers: [AppController],
   providers: [AppService],
