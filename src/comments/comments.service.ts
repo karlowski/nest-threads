@@ -5,6 +5,7 @@ import { DataSource, Repository } from 'typeorm';
 import { UserComment } from './comment.entity';
 import { CreateCommentDto } from 'src/dto/create-comment-dto';
 import { UserPost } from 'src/posts/post.entity';
+import { TimeService } from 'src/shared/services/time.service';
 
 @Injectable()
 export class CommentsService {
@@ -12,7 +13,8 @@ export class CommentsService {
     @InjectRepository(UserComment)
     private commentsRepository: Repository<UserComment>,
     @InjectRepository(UserPost)
-    private postsRepository: Repository<UserPost>
+    private postsRepository: Repository<UserPost>,
+    private timeService: TimeService
   ) {}
 
   async getAllFromUser(userId: number): Promise<UserComment[]> {
@@ -31,7 +33,7 @@ export class CommentsService {
     } 
 
     try {
-      const newComment = await this.commentsRepository.insert({ ...commentData, creationTime: this.catchActivityTime() });
+      const newComment = await this.commentsRepository.insert({ ...commentData, creationTime: this.timeService.catchActivityTime() });
       return { message: 'Comment posted' };
     } catch ({ message, status }) {
       throw new HttpException({ message, status }, status);
@@ -45,10 +47,5 @@ export class CommentsService {
     } catch ({ message, status }) {
       throw new HttpException({ message, status }, status);
     }
-  }
-
-  private catchActivityTime(): string {
-    const date = new Date();
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
   }
 }

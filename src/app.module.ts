@@ -11,6 +11,7 @@ import { PostsModule } from './posts/posts.module';
 import { UserPost } from './posts/post.entity';
 import { CommentsModule } from './comments/comments.module';
 import { UserComment } from './comments/comment.entity';
+import { SharedModule } from './shared/shared.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { UserComment } from './comments/comment.entity';
       synchronize: false
     }),
     PostsModule,
-    CommentsModule
+    CommentsModule,
+    SharedModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { UserPost } from './post.entity';
 import { CreatePostDto } from 'src/dto/create-post.dto';
 import { UserComment } from 'src/comments/comment.entity';
+import { TimeService } from 'src/shared/services/time.service';
 
 @Injectable()
 export class PostsService {
@@ -12,7 +13,8 @@ export class PostsService {
     @InjectRepository(UserPost)
     private postsRepository: Repository<UserPost>,
     @InjectRepository(UserComment)
-    private commentsRepository: Repository<UserComment>
+    private commentsRepository: Repository<UserComment>,
+    private timeService: TimeService
   ) {}
 
   async getAll(): Promise<UserPost[]> {
@@ -34,7 +36,7 @@ export class PostsService {
 
   async create(post: CreatePostDto): Promise<UserPost> {
     try {
-      const newPostData = await this.postsRepository.create({ ...post, creationTime: this.catchActivityTime() });
+      const newPostData = await this.postsRepository.create({ ...post, creationTime: this.timeService.catchActivityTime() });
       const createdPost = await this.postsRepository.save(newPostData);
       return createdPost;
     } catch ({ response, message, status }) {
@@ -53,9 +55,4 @@ export class PostsService {
   // async getAllWithLikes(): Promise<any> {
   //   return this
   // }
-
-  private catchActivityTime(): string {
-    const date = new Date();
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-  }
 }
