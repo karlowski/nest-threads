@@ -1,16 +1,18 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { UserComment } from './comment.entity';
 import { DataSource, Repository } from 'typeorm';
+
+import { UserComment } from './comment.entity';
 import { CreateCommentDto } from 'src/dto/create-comment-dto';
+import { UserPost } from 'src/posts/post.entity';
 
 @Injectable()
 export class CommentsService {
   constructor(
     @InjectRepository(UserComment)
     private commentsRepository: Repository<UserComment>,
-    @InjectDataSource()
-    private dataSource: DataSource
+    @InjectRepository(UserPost)
+    private postsRepository: Repository<UserPost>
   ) {}
 
   async getAllFromUser(userId: number): Promise<UserComment[]> {
@@ -22,6 +24,12 @@ export class CommentsService {
   }
 
   async create(commentData: CreateCommentDto): Promise<any> {
+    const postToComment = await this.postsRepository.findOneBy({ id: commentData.postId });
+
+    if (!postToComment) {
+      throw new HttpException({ message: 'No such post to comment on', status: HttpStatus.BAD_REQUEST }, HttpStatus.BAD_REQUEST);
+    } 
+
     try {
       const newComment = await this.commentsRepository.insert({ ...commentData, creationTime: this.catchActivityTime() });
       return { message: 'Comment posted' };
