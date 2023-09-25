@@ -1,5 +1,7 @@
 import { IsNotEmpty } from "@nestjs/class-validator";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+
+import { UserPost } from "src/posts/post.entity";
 
 @Entity('comments')
 export class UserComment extends BaseEntity {
@@ -24,4 +26,7 @@ export class UserComment extends BaseEntity {
   @IsNotEmpty()
   @Column({ nullable: false })
   creationTime: string;
+
+  @ManyToOne((type) => UserPost, (post) => post.comments)
+  post: UserPost;
 }
