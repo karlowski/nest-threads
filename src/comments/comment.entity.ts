@@ -1,7 +1,8 @@
 import { IsNotEmpty } from "@nestjs/class-validator";
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 import { UserPost } from "src/posts/post.entity";
+import { UserLike } from "src/likes/like.entity";
 
 @Entity('comments')
 export class UserComment extends BaseEntity {
@@ -29,4 +30,7 @@ export class UserComment extends BaseEntity {
 
   @ManyToOne((type) => UserPost, (post) => post.comments)
   post: UserPost;
+
+  @OneToMany((type) => UserLike, (like) => like.comment, { cascade: true })
+  likes: UserLike[];
 }

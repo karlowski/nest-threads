@@ -20,7 +20,8 @@ export class PostsService {
   async getAll(): Promise<UserPost[]> {
     return this.postsRepository.find({
       relations: {
-        comments: true
+        comments: true,
+        likes: true
       }
     });
   }
@@ -29,7 +30,8 @@ export class PostsService {
     return this.postsRepository.find({
       where: { userId },
       relations: {
-        comments: true
+        comments: true,
+        likes: true
       }
     });
   }
