@@ -18,11 +18,21 @@ export class CommentsService {
   ) {}
 
   async getAllFromUser(userId: number): Promise<UserComment[]> {
-    return this.commentsRepository.findBy({ userId });
+    return this.commentsRepository.find({
+      where: { userId },
+      relations: {
+        likes: true
+      }
+    });
   }
 
   async getAllForPost(postId: number): Promise<UserComment[]> {
-    return this.commentsRepository.findBy({ postId });
+    return this.commentsRepository.find({
+      where: { postId },
+      relations: {
+        likes: true
+      }
+    });
   }
 
   async create(commentData: CreateCommentDto): Promise<any> {

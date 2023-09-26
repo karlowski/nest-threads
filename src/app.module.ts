@@ -12,6 +12,8 @@ import { UserPost } from './posts/post.entity';
 import { CommentsModule } from './comments/comments.module';
 import { UserComment } from './comments/comment.entity';
 import { SharedModule } from './shared/shared.module';
+import { LikesModule } from './likes/likes.module';
+import { UserLike } from './likes/like.entity';
 
 @Module({
   imports: [
@@ -27,12 +29,13 @@ import { SharedModule } from './shared/shared.module';
       username: process.env.MYSQL_DB_USERNAME,
       password: process.env.MYSQL_DB_PASSWORD,
       database: process.env.MYSQL_DB,
-      entities: [User, UserPost, UserComment],
+      entities: [User, UserPost, UserComment, UserLike],
       synchronize: false
     }),
     PostsModule,
     CommentsModule,
-    SharedModule
+    SharedModule,
+    LikesModule
   ],
   controllers: [AppController],
   providers: [AppService],
