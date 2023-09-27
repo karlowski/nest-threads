@@ -5,12 +5,14 @@ import { Request } from 'express';
 
 import { UsersService } from 'src/users/users.service';
 import { CreateUserDto } from 'src/dto/create-user.dto';
+import { TimeService } from 'src/shared/services/time.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private timeService: TimeService
   ) {}
 
   async signIn(email: string, password: string, req: Request): Promise<any> {
@@ -31,7 +33,7 @@ export class AuthService {
 
       req.headers['authorization'] = `Bearer ${token}`;
 
-      await this.usersService.update({ ...user, lastTimeOnline: this.catchActivityTime() });
+      await this.usersService.update({ ...user, lastTimeOnline: this.timeService.catchActivityTime() });
 
       return {
         access_token: token
@@ -44,16 +46,11 @@ export class AuthService {
   async signUp(user: CreateUserDto): Promise<any> {
     try {
       const cryptedPassword = await bcrypt.hash(user.password, 10);
-      const creationTime = this.catchActivityTime();
+      const creationTime = this.timeService.catchActivityTime();
       const newUser = { username: user.username, email: user.email, password: cryptedPassword, creationTime, lastTimeOnline: creationTime };
       return await this.usersService.create(newUser);  
     } catch ({ response, message, status }) {
       throw new HttpException({ message, status }, HttpStatus.BAD_REQUEST);
     }
-  }
-
-  private catchActivityTime(): string {
-    const date = new Date();
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
   }
 }
