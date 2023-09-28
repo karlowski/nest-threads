@@ -12,9 +12,14 @@ export class UsersService {
     private usersRepository: Repository<User>
   ) {}
 
+  async getUserById(id: number): Promise<User> {
+    return await this.usersRepository.findOne({
+      where: { id }
+    });
+}
+
   async getUserByEmail(email: string): Promise<User> {
       return await this.usersRepository.findOne({
-        select: [],
         where: { email }
       });
   }
@@ -28,22 +33,34 @@ export class UsersService {
   async create(user: CreateUserDto): Promise<any> {
     try {
       const newUserData = await this.usersRepository.create(user);
-      const createdUser = await this.usersRepository.save(newUserData);
+      const { id, username, email, creationTime, lastTimeOnline } = await this.usersRepository.save(newUserData);
     
       return { 
-        user: { username: createdUser.username, email: createdUser.email },
-        message: 'User successfully created'
+        message: 'User created successfully',
+        user: { id, username, email, creationTime, lastTimeOnline }
       }  
     } catch (error) {
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }
 
-  async update(userData: Record<string, string | number>): Promise<void> {
+  async update(userData: Record<string, string | number>): Promise<any> {
+    const user = await this.getUserById(Number(userData.id));
+
+    if (!user) {
+      throw new HttpException({ message: 'No such user found', status: HttpStatus.BAD_REQUEST }, HttpStatus.BAD_REQUEST);
+    }
+
     try {
-      const updatedUser = await this.usersRepository.update(userData.id, userData);
+      const updatedUserResult = await this.usersRepository.update(userData.id, userData);
+      const { id, username, email, creationTime, lastTimeOnline } = await this.getUserById(Number(userData.id));
+
+      return { 
+        message: 'User updated successfully', 
+        user: { id, username, email, creationTime, lastTimeOnline } 
+      };
     } catch ({ message, status  }) {
-      throw new HttpException({ message, status  }, HttpStatus.BAD_REQUEST)
+      throw new HttpException({ message, status  }, HttpStatus.BAD_REQUEST);
     }
   }
 }
