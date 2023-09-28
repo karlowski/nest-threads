@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 
 import { UserPost } from './post.entity';
 import { CreatePostDto } from 'src/dto/create-post.dto';
-import { UserComment } from 'src/comments/comment.entity';
 import { TimeService } from 'src/shared/services/time.service';
 
 @Injectable()
@@ -12,8 +11,6 @@ export class PostsService {
   constructor(
     @InjectRepository(UserPost)
     private postsRepository: Repository<UserPost>,
-    @InjectRepository(UserComment)
-    private commentsRepository: Repository<UserComment>,
     private timeService: TimeService
   ) {}
 
@@ -53,8 +50,4 @@ export class PostsService {
       throw new HttpException({ message, status }, status);
     }
   }
-
-  // async getAllWithLikes(): Promise<any> {
-  //   return this
-  // }
 }
