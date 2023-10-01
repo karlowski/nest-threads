@@ -1,10 +1,9 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
 
 import { CreatePostDto } from 'src/dto/create-post.dto';
 import { PostsService } from './posts.service';
 import { UserPost } from './post.entity';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
-import { UserExistenceInterceptor } from 'src/interceptors/user-existence.interceptor';
 
 @Controller('posts')
 @UseGuards(AuthGuard)
@@ -16,7 +15,6 @@ export class PostsController {
     return this.postsService.getAll();
   }
 
-  // @UseInterceptors(UserExistenceInterceptor)
   @Get(':id')
   getAllFromUser(@Param('id', ParseIntPipe) id: number): Promise<UserPost[]> {
     return this.postsService.getAllFromUser(id);
