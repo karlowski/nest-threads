@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get, Param, Post, Body, Delete, ParseIntPipe, UseInterceptors, } from '@nestjs/common';
+import { Controller, UseGuards, Get, Param, Post, Body, Delete, ParseIntPipe, } from '@nestjs/common';
 
 import { AuthGuard } from 'src/guards/auth/auth.guard';
 import { CommentsService } from './comments.service';
