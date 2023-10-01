@@ -1,9 +1,12 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { User } from './user.entity';
 import { CreateUserDto } from 'src/dto/create-user.dto';
+import { UserNotFoundException } from 'src/exceptions/user-not-found.exception';
+import { SerializedUser } from 'src/types/serialized-user';
+import { EntitiesNotFoundException } from 'src/exceptions/entities-not-found.exception';
 
 @Injectable()
 export class UsersService {
@@ -12,55 +15,62 @@ export class UsersService {
     private usersRepository: Repository<User>
   ) {}
 
-  async getUserById(id: number): Promise<User> {
-    return await this.usersRepository.findOne({
+  async getUserById(id: number): Promise<SerializedUser> {
+    const user = await this.usersRepository.findOne({
       where: { id }
     });
-}
+    
+    if (!user) throw new UserNotFoundException();
 
-  async getUserByEmail(email: string): Promise<User> {
-      return await this.usersRepository.findOne({
-        where: { email }
-      });
+    return new SerializedUser(user);
   }
 
-  async getAll(): Promise<User[]> {
-    return await this.usersRepository.find({
-      select: ['id', 'username', 'email', 'creationTime', 'lastTimeOnline']
+  async getUserByEmail(email: string): Promise<SerializedUser> {
+    const user = await this.usersRepository.findOne({
+      where: { email }
     });
+
+    if (!user) throw new UserNotFoundException();
+
+    return new SerializedUser(user);
   }
 
-  async create(user: CreateUserDto): Promise<any> {
+  async getAll(): Promise<SerializedUser[]> {
+    const users = await this.usersRepository.find();
+
+    if (!users) throw new EntitiesNotFoundException(); 
+
+    return users.map((user) => new SerializedUser(user))
+  }
+
+  async create(user: CreateUserDto): Promise<Record<string, string | SerializedUser>> {
     try {
       const newUserData = await this.usersRepository.create(user);
-      const { id, username, email, creationTime, lastTimeOnline } = await this.usersRepository.save(newUserData);
+      const savedUser = await this.usersRepository.save(newUserData);
     
       return { 
         message: 'User created successfully',
-        user: { id, username, email, creationTime, lastTimeOnline }
+        user: new SerializedUser(savedUser)
       }  
     } catch (error) {
-      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+      throw new BadRequestException(error);
     }
   }
 
-  async update(userData: Record<string, string | number>): Promise<any> {
+  async update(userData: Record<string, string | number>): Promise<Record<string, string | SerializedUser>> {
     const user = await this.getUserById(Number(userData.id));
 
     if (!user) {
-      throw new HttpException({ message: 'No such user found', status: HttpStatus.BAD_REQUEST }, HttpStatus.BAD_REQUEST);
+      throw new UserNotFoundException();
     }
 
     try {
       const updatedUserResult = await this.usersRepository.update(userData.id, userData);
-      const { id, username, email, creationTime, lastTimeOnline } = await this.getUserById(Number(userData.id));
+      const user = await this.getUserById(Number(userData.id));
 
-      return { 
-        message: 'User updated successfully', 
-        user: { id, username, email, creationTime, lastTimeOnline } 
-      };
-    } catch ({ message, status  }) {
-      throw new HttpException({ message, status  }, HttpStatus.BAD_REQUEST);
+      return { message: 'User updated successfully', user };
+    } catch (error) {
+      throw new BadRequestException(error);
     }
   }
 }

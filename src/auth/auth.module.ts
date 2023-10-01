@@ -16,7 +16,7 @@ import { SharedModule } from 'src/shared/shared.module';
     TypeOrmModule.forFeature([User]),
     JwtModule.register({
       global: true,
-      secret: 'asd',
+      secret: process.env.TOKEN_SECRET,
       signOptions: { expiresIn: '5m' }
     }),
     UsersModule,

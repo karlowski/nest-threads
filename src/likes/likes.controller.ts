@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
 
 import { AuthGuard } from 'src/guards/auth/auth.guard';
 import { LikesService } from './likes.service';
@@ -15,7 +15,7 @@ export class LikesController {
   }
 
   @Delete(':id')
-  async delete(@Param() id: number): Promise<any> {
+  async delete(@Param('id', ParseIntPipe) id: number): Promise<any> {
     return this.likesService.delete(id);
   }
 }
