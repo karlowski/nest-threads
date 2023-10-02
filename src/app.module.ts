@@ -16,6 +16,7 @@ import { LikesModule } from './likes/likes.module';
 import { UserLike } from './likes/like.entity';
 import { PostExistenceMiddleware } from './middlewares/post-existence.middleware';
 import { UserExistenceMiddleware } from './middlewares/user-existence.middleware';
+import { ActivityCatcherMiddleware } from './middlewares/activity-catcher.middleware';
 
 @Module({
   imports: [
@@ -62,5 +63,16 @@ export class AppModule implements NestModule {
         'comments/userId/:userId',
         'likes'
       )
+      .apply(ActivityCatcherMiddleware)
+      .forRoutes(
+        { path: 'posts', method: RequestMethod.POST },
+        { path: 'posts/:id', method: RequestMethod.PUT },
+        { path: 'posts/:id', method: RequestMethod.DELETE },
+        { path: 'comments', method: RequestMethod.POST },
+        { path: 'comments/:id', method: RequestMethod.PUT },
+        { path: 'comments/:id', method: RequestMethod.DELETE },
+        { path: 'likes', method: RequestMethod.POST },
+        // TODO:  'likes'
+      );
   }
 }
