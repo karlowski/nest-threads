@@ -14,8 +14,8 @@ export class LikesController {
     return this.likesService.create(like);
   }
 
-  @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id: number): Promise<any> {
-    return this.likesService.delete(id);
+  @Delete()
+  async delete(@Body() { id, userId }: any): Promise<any> {
+    return this.likesService.delete(id, userId);
   }
 }

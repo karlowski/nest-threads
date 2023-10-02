@@ -30,7 +30,7 @@ export class LikesService {
     }
   }
 
-  async delete(id: number): Promise<any> {
+  async delete(id: number, userId: number): Promise<any> {
     const existingLike = await this.likesRepository.findOneBy({ id });
 
     if (!existingLike) {
