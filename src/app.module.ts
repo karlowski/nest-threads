@@ -71,8 +71,7 @@ export class AppModule implements NestModule {
         { path: 'comments', method: RequestMethod.POST },
         { path: 'comments/:id', method: RequestMethod.PUT },
         { path: 'comments/:id', method: RequestMethod.DELETE },
-        { path: 'likes', method: RequestMethod.POST },
-        // TODO:  'likes'
+        'likes'
       );
   }
 }
