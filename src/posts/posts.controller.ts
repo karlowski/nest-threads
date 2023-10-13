@@ -2,8 +2,9 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, UseGuards } f
 
 import { CreatePostDto } from 'src/dto/create-post.dto';
 import { PostsService } from './posts.service';
-import { UserPost } from './post.entity';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
+import { UserPost } from 'src/interfaces/post.interface';
+import { ApiResponse } from 'src/interfaces/api-response.interface';
 
 @Controller('posts')
 @UseGuards(AuthGuard)
@@ -21,12 +22,12 @@ export class PostsController {
   }
 
   @Post()
-  create(@Body() post: CreatePostDto): Promise<Record<string, string | UserPost>> {
+  create(@Body() post: CreatePostDto): Promise<ApiResponse<UserPost>> {
     return this.postsService.create(post);
   }
 
   @Delete(':id')
-  delete(@Param('id', ParseIntPipe) id: number): Promise<Record<string, string | UserPost>> {
+  delete(@Param('id', ParseIntPipe) id: number): Promise<ApiResponse<UserPost>> {
     return this.postsService.delete(id);
   }
 }

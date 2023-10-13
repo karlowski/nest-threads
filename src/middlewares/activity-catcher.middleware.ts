@@ -13,7 +13,7 @@ export class ActivityCatcherMiddleware implements NestMiddleware {
 
   async use(request: Request, response: Response, next: NextFunction) {
     const id = request.params.id || request.params.userId || request.body.userId;
-    const updatedUser = await this.usersService.update({ id, lastTimeOnline: this.timeService.catchActivityTime() });
+    const updatedUser = await this.usersService.update(id, { lastTimeOnline: this.timeService.catchActivityTime() });
     
     next();
   }
