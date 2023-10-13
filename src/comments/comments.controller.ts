@@ -1,32 +1,33 @@
-import { Controller, UseGuards, Get, Param, Post, Body, Delete, } from '@nestjs/common';
+import { Controller, UseGuards, Get, Param, Post, Body, Delete, ParseIntPipe, } from '@nestjs/common';
 
 import { AuthGuard } from 'src/guards/auth/auth.guard';
 import { CommentsService } from './comments.service';
-import { UserComment } from './comment.entity';
 import { CreateCommentDto } from 'src/dto/create-comment-dto';
+import { ApiResponse } from 'src/interfaces/api-response.interface';
+import { UserComment } from 'src/interfaces/comment.interface';
 
-@Controller('comments')
 @UseGuards(AuthGuard)
+@Controller('comments')
 export class CommentsController {
   constructor(private commentsService: CommentsService) {}
 
   @Get('/userId/:userId')
-  async getAllForUser(@Param('userId') userId: number): Promise<UserComment[]> {
+  getAllForUser(@Param('userId', ParseIntPipe) userId: number): Promise<UserComment[]> {
     return this.commentsService.getAllFromUser(userId);
   }
 
   @Get('/postId/:postId')
-  async getAllForPost(@Param('postId') postId: number): Promise<UserComment[]> {
+  getAllForPost(@Param('postId', ParseIntPipe) postId: number): Promise<UserComment[]> {
     return this.commentsService.getAllForPost(postId);
   }
 
   @Post()
-  async create(@Body() commentData: CreateCommentDto): Promise<UserComment> {
+  create(@Body() commentData: CreateCommentDto): Promise<ApiResponse<UserComment>> {
     return this.commentsService.create(commentData);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: number): Promise<any> {
+  delete(@Param('id', ParseIntPipe) id: number): Promise<ApiResponse<null>> {
     return this.commentsService.delete(id);
   }
 }
