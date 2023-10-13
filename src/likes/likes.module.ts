@@ -3,12 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { LikesController } from './likes.controller';
 import { LikesService } from './likes.service';
-import { UserLike } from './like.entity';
+import { LikeEntity } from './like.entity';
 import { SharedModule } from 'src/shared/shared.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserLike]),
+    TypeOrmModule.forFeature([LikeEntity]),
     SharedModule
   ],
   controllers: [LikesController],

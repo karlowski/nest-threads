@@ -1,11 +1,11 @@
 import { IsNotEmpty } from "@nestjs/class-validator";
 import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
-import { UserPost } from "src/posts/post.entity";
-import { UserComment } from "src/comments/comment.entity";
+import { PostEntity } from "src/posts/post.entity";
+import { CommentEntity } from "src/comments/comment.entity";
 
 @Entity('likes')
-export class UserLike extends BaseEntity {
+export class LikeEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -23,9 +23,9 @@ export class UserLike extends BaseEntity {
   @Column({ nullable: false })
   creationTime: string;
 
-  @ManyToOne((type) => UserPost, (post) => post.likes)
-  post: UserPost;
+  @ManyToOne((type) => PostEntity, (post) => post.likes)
+  post: PostEntity;
 
-  @ManyToOne((type) => UserComment, (comment) => comment.likes)
-  comment: UserComment;
+  @ManyToOne((type) => CommentEntity, (comment) => comment.likes)
+  comment: CommentEntity;
 }

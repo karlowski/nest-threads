@@ -22,7 +22,11 @@ export class AuthGuard implements CanActivate {
         }
       );
 
-      request['user'] = { id: response.id, username: response.username, email: response.email };
+      request['user'] = { 
+        id: response.id, 
+        username: response.username, 
+        email: response.email
+      };
     } catch (error) {
       throw new UnauthorizedException();
     }

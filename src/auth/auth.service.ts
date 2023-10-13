@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { Request } from 'express';
@@ -6,6 +6,9 @@ import { Request } from 'express';
 import { UsersService } from 'src/users/users.service';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { TimeService } from 'src/shared/services/time.service';
+import { AccessToken } from 'src/interfaces/access-token.interface';
+import { SerializedUser } from 'src/types/serialized-user';
+import { ApiResponse } from 'src/interfaces/api-response.interface';
 
 @Injectable()
 export class AuthService {
@@ -15,12 +18,8 @@ export class AuthService {
     private timeService: TimeService
   ) {}
 
-  async signIn(email: string, password: string, req: Request): Promise<any> {
+  async signIn(email: string, password: string, req: Request): Promise<AccessToken> {
     const user = await this.usersService.getUserByEmail(email);
-
-    if (!user) {
-      throw new UnauthorizedException(); 
-    }
 
     try {
       const isPasswordMatches = await bcrypt.compare(password, user.password);
@@ -29,12 +28,19 @@ export class AuthService {
         throw new BadRequestException({ message: 'Wrong password or email', });
       }
 
-      const token = await this.jwtService.signAsync({ sub: user.id, username: user.username });
+      const token = await this.jwtService.signAsync({ 
+        sub: user.id, 
+        username: user.username 
+      });
 
       req.headers['authorization'] = `Bearer ${token}`;
 
-      await this.usersService.update({ ...user, lastTimeOnline: this.timeService.catchActivityTime() });
+      await this.usersService.update(user.id, { 
+        ...user, 
+        lastTimeOnline: this.timeService.catchActivityTime() 
+      });
 
+      // TODO: general interface { message, data } with generic ???
       return {
         access_token: token
       } 
@@ -43,19 +49,16 @@ export class AuthService {
     }
   }
 
-  async signUp({ email, username, password }: CreateUserDto): Promise<any> {
+  async signUp({ email, username, password }: CreateUserDto): Promise<ApiResponse<SerializedUser>> {
     try {
       const cryptedPassword = await bcrypt.hash(password, 10);
-      const creationTime = this.timeService.catchActivityTime();
-      const newUser = { 
-        username, 
-        email, 
-        password: cryptedPassword, 
-        creationTime, 
-        lastTimeOnline: creationTime 
-      };
+      const newUser = await this.usersService.create({ 
+        username,
+        email,
+        password: cryptedPassword
+      });
 
-      return await this.usersService.create(newUser);  
+      return { message: 'User created successfully', data: newUser };
     } catch (error) {
       throw new BadRequestException(error);
     }
