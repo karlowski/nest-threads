@@ -6,7 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './api/v1/users/users.module';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './api/v1/auth/auth.module';
 import { UserEntity } from './api/v1/users/user.entity';
 import { PostsModule } from './api/v1/posts/posts.module';
 import { PostEntity } from './api/v1/posts/post.entity';
