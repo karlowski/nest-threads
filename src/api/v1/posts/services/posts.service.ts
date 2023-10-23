@@ -2,13 +2,13 @@ import { BadRequestException, Injectable, Scope } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { PostEntity } from './post.entity';
-import { CreatePostDto } from 'src/dto/create-post.dto';
+import { PostEntity } from '../entities/post.entity';
+import { CreatePostDto } from 'src/api/v1/posts/dto/create-post.dto';
 import { TimeService } from 'src/shared/services/time.service';
 import { EntitiesNotFoundException } from 'src/exceptions/entities-not-found.exception';
 import { PostNotFoundException } from 'src/exceptions/post-not-found.exception';
 import { ApiResponse } from 'src/interfaces/api-response.interface';
-import { UserPost } from 'src/interfaces/post.interface';
+import { UserPost } from 'src/api/v1/posts/interfaces/post.interface';
 
 @Injectable({ scope: Scope.REQUEST })
 export class PostsService {

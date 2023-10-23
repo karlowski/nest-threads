@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { LikesController } from './likes.controller';
-import { LikesService } from './likes.service';
-import { LikeEntity } from './like.entity';
+import { LikesController } from './controllers/likes.controller';
+import { LikesService } from './services/likes.service';
+import { LikeEntity } from './entities/like.entity';
 import { SharedModule } from 'src/shared/shared.module';
 
 @Module({

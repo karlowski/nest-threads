@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
 
-import { CreatePostDto } from 'src/dto/create-post.dto';
-import { PostsService } from './posts.service';
-import { AuthGuard } from 'src/guards/auth/auth.guard';
-import { UserPost } from 'src/interfaces/post.interface';
+import { CreatePostDto } from 'src/api/v1/posts/dto/create-post.dto';
+import { PostsService } from '../services/posts.service';
+import { AuthGuard } from 'src/api/v1/auth/guards/auth.guard';
+import { UserPost } from 'src/api/v1/posts/interfaces/post.interface';
 import { ApiResponse } from 'src/interfaces/api-response.interface';
 
 @Controller({

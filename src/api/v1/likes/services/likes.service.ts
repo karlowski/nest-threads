@@ -2,11 +2,11 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { LikeEntity } from './like.entity';
+import { LikeEntity } from '../entities/like.entity';
 import { TimeService } from 'src/shared/services/time.service';
-import { CreateLikeDto } from 'src/dto/create-like.dto';
+import { CreateLikeDto } from 'src/api/v1/likes/dto/create-like.dto';
 import { ApiResponse } from 'src/interfaces/api-response.interface';
-import { UserLike } from 'src/interfaces/like.interface';
+import { UserLike } from 'src/api/v1/likes/interfaces/like.interface';
 
 @Injectable()
 export class LikesService {

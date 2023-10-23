@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AuthService } from './auth.service';
+import { AuthService } from './services/auth.service';
 import { LocalStrategy } from './local.strategy';
-import { UserEntity } from 'src/api/v1/users/user.entity';
+import { UserEntity } from 'src/api/v1/users/entities/user.entity';
 import { UsersModule } from 'src/api/v1/users/users.module';
-import { AuthController } from './auth.controller';
+import { AuthController } from './controllers/auth.controller';
 import { SharedModule } from 'src/shared/shared.module';
 
 @Module({

@@ -1,11 +1,11 @@
 import { Body, Controller, Post, Req } from '@nestjs/common';
 import { Request } from 'express';
 
-import { CreateUserDto } from 'src/dto/create-user.dto';
-import { AuthService } from './auth.service';
-import { LoginUserDto } from 'src/dto/login-user.dto';
-import { AccessToken } from 'src/interfaces/access-token.interface';
-import { SerializedUser } from 'src/types/serialized-user';
+import { CreateUserDto } from 'src/api/v1/users/dto/create-user.dto';
+import { AuthService } from '../services/auth.service';
+import { LoginUserDto } from 'src/api/v1/auth/dto/login-user.dto';
+import { AccessToken } from 'src/api/v1/auth/interfaces/access-token.interface';
+import { SerializedUser } from 'src/api/v1/users/types/serialized-user';
 import { ApiResponse } from 'src/interfaces/api-response.interface';
 
 @Controller({

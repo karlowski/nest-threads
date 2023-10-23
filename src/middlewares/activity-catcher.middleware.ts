@@ -2,7 +2,7 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 
 import { TimeService } from 'src/shared/services/time.service';
-import { UsersService } from 'src/api/v1/users/users.service';
+import { UsersService } from 'src/api/v1/users/services/users.service';
 
 @Injectable()
 export class ActivityCatcherMiddleware implements NestMiddleware {
