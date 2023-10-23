@@ -6,7 +6,10 @@ import { AuthGuard } from 'src/guards/auth/auth.guard';
 import { UserPost } from 'src/interfaces/post.interface';
 import { ApiResponse } from 'src/interfaces/api-response.interface';
 
-@Controller('posts')
+@Controller({
+  path: 'posts',
+  version: '1'
+})
 @UseGuards(AuthGuard)
 export class PostsController {
   constructor(private postsService: PostsService) {}
