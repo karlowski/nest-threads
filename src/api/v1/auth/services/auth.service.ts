@@ -3,11 +3,11 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { Request } from 'express';
 
-import { UsersService } from 'src/api/v1/users/users.service';
-import { CreateUserDto } from 'src/dto/create-user.dto';
+import { UsersService } from 'src/api/v1/users/services/users.service';
+import { CreateUserDto } from 'src/api/v1/users/dto/create-user.dto';
 import { TimeService } from 'src/shared/services/time.service';
-import { AccessToken } from 'src/interfaces/access-token.interface';
-import { SerializedUser } from 'src/types/serialized-user';
+import { AccessToken } from 'src/api/v1/auth/interfaces/access-token.interface';
+import { SerializedUser } from 'src/api/v1/users/types/serialized-user';
 import { ApiResponse } from 'src/interfaces/api-response.interface';
 
 @Injectable()

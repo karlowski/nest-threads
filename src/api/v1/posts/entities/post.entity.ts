@@ -1,8 +1,8 @@
 import { IsNotEmpty } from "@nestjs/class-validator";
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-import { CommentEntity } from "src/api/v1/comments/comment.entity";
-import { LikeEntity } from "src/api/v1/likes/like.entity";
+import { CommentEntity } from "src/api/v1/comments/entities/comment.entity";
+import { LikeEntity } from "src/api/v1/likes/entities/like.entity";
 
 @Entity('posts')
 export class PostEntity extends BaseEntity {

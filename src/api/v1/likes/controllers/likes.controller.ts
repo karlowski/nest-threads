@@ -1,16 +1,16 @@
 import { Body, Controller, Delete, Post, UseGuards } from '@nestjs/common';
 
-import { AuthGuard } from 'src/guards/auth/auth.guard';
-import { LikesService } from './likes.service';
-import { CreateLikeDto } from 'src/dto/create-like.dto';
+import { AuthGuard } from 'src/api/v1/auth/guards/auth.guard';
+import { LikesService } from '../services/likes.service';
+import { CreateLikeDto } from 'src/api/v1/likes/dto/create-like.dto';
 import { ApiResponse } from 'src/interfaces/api-response.interface';
-import { UserLike } from 'src/interfaces/like.interface';
+import { UserLike } from 'src/api/v1/likes/interfaces/like.interface';
 
+@UseGuards(AuthGuard)
 @Controller({
   path: 'likes',
   version: '1'
 })
-@UseGuards(AuthGuard)
 export class LikesController {
   constructor(private likesService: LikesService) {}
 

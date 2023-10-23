@@ -1,10 +1,10 @@
 import { Controller, UseGuards, Get, Param, Post, Body, Delete, ParseIntPipe, } from '@nestjs/common';
 
-import { AuthGuard } from 'src/guards/auth/auth.guard';
-import { CommentsService } from './comments.service';
-import { CreateCommentDto } from 'src/dto/create-comment-dto';
+import { AuthGuard } from 'src/api/v1/auth/guards/auth.guard';
+import { CommentsService } from '../services/comments.service';
+import { CreateCommentDto } from 'src/api/v1/comments/dto/create-comment-dto';
 import { ApiResponse } from 'src/interfaces/api-response.interface';
-import { UserComment } from 'src/interfaces/comment.interface';
+import { UserComment } from 'src/api/v1/comments/interfaces/comment.interface';
 
 @UseGuards(AuthGuard)
 @Controller({
