@@ -4,8 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthService } from './auth.service';
 import { LocalStrategy } from './local.strategy';
-import { UserEntity } from 'src/users/user.entity';
-import { UsersModule } from 'src/users/users.module';
+import { UserEntity } from 'src/api/v1/users/user.entity';
+import { UsersModule } from 'src/api/v1/users/users.module';
 import { AuthController } from './auth.controller';
 import { SharedModule } from 'src/shared/shared.module';
 

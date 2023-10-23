@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { Request } from 'express';
 
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from 'src/api/v1/users/users.service';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { TimeService } from 'src/shared/services/time.service';
 import { AccessToken } from 'src/interfaces/access-token.interface';
