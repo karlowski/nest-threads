@@ -4,9 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommentsController } from './comments.controller';
 import { CommentsService } from './comments.service';
 import { CommentEntity } from './comment.entity';
-import { PostEntity } from 'src/posts/post.entity';
+import { PostEntity } from 'src/api/v1/posts/post.entity';
 import { SharedModule } from 'src/shared/shared.module';
-import { UserEntity } from 'src/users/user.entity';
+import { UserEntity } from 'src/api/v1/users/user.entity';
 
 @Module({
   imports: [

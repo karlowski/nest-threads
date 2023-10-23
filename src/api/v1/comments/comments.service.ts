@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 import { CommentEntity } from './comment.entity';
 import { CreateCommentDto } from 'src/dto/create-comment-dto';
-import { PostEntity } from 'src/posts/post.entity';
+import { PostEntity } from 'src/api/v1/posts/post.entity';
 import { TimeService } from 'src/shared/services/time.service';
 import { EntitiesNotFoundException } from 'src/exceptions/entities-not-found.exception';
 import { ApiResponse } from 'src/interfaces/api-response.interface';
