@@ -1,8 +1,8 @@
 import { ClassSerializerInterceptor, Controller, Get, Param, ParseIntPipe, UseGuards, UseInterceptors } from '@nestjs/common';
 
-import { AuthGuard } from 'src/guards/auth/auth.guard';
-import { UsersService } from './users.service';
-import { SerializedUser } from 'src/types/serialized-user';
+import { AuthGuard } from 'src/api/v1/auth/guards/auth.guard';
+import { UsersService } from '../services/users.service';
+import { SerializedUser } from 'src/api/v1/users/types/serialized-user';
 
 @UseGuards(AuthGuard)
 @UseInterceptors(ClassSerializerInterceptor)

@@ -2,13 +2,13 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CommentEntity } from './comment.entity';
-import { CreateCommentDto } from 'src/dto/create-comment-dto';
-import { PostEntity } from 'src/api/v1/posts/post.entity';
+import { CommentEntity } from '../entities/comment.entity';
+import { CreateCommentDto } from 'src/api/v1/comments/dto/create-comment-dto';
+import { PostEntity } from 'src/api/v1/posts/entities/post.entity';
 import { TimeService } from 'src/shared/services/time.service';
 import { EntitiesNotFoundException } from 'src/exceptions/entities-not-found.exception';
 import { ApiResponse } from 'src/interfaces/api-response.interface';
-import { UserComment } from 'src/interfaces/comment.interface';
+import { UserComment } from 'src/api/v1/comments/interfaces/comment.interface';
 
 @Injectable()
 export class CommentsService {

@@ -2,14 +2,14 @@ import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nes
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { UserEntity } from './user.entity';
-import { CreateUserDto } from 'src/dto/create-user.dto';
+import { UserEntity } from '../entities/user.entity';
+import { CreateUserDto } from 'src/api/v1/users/dto/create-user.dto';
 import { UserNotFoundException } from 'src/exceptions/user-not-found.exception';
-import { SerializedUser } from 'src/types/serialized-user';
+import { SerializedUser } from 'src/api/v1/users/types/serialized-user';
 import { EntitiesNotFoundException } from 'src/exceptions/entities-not-found.exception';
 import { TimeService } from 'src/shared/services/time.service';
 import { ApiResponse } from 'src/interfaces/api-response.interface';
-import { UpdateUserDto } from 'src/dto/update-user.dto';
+import { UpdateUserDto } from 'src/api/v1/users/dto/update-user.dto';
 
 @Injectable()
 export class UsersService {

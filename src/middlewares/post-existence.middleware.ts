@@ -2,7 +2,7 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 
 import { PostNotFoundException } from 'src/exceptions/post-not-found.exception';
-import { PostsService } from 'src/api/v1/posts/posts.service';
+import { PostsService } from 'src/api/v1/posts/services/posts.service';
 
 @Injectable()
 export class PostExistenceMiddleware implements NestMiddleware {
