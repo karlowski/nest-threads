@@ -8,7 +8,10 @@ import { AccessToken } from 'src/interfaces/access-token.interface';
 import { SerializedUser } from 'src/types/serialized-user';
 import { ApiResponse } from 'src/interfaces/api-response.interface';
 
-@Controller('auth')
+@Controller({
+  path: 'auth',
+  version: '1'
+})
 export class AuthController {
   constructor(private authService: AuthService) {}
 

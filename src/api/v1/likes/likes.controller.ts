@@ -6,7 +6,10 @@ import { CreateLikeDto } from 'src/dto/create-like.dto';
 import { ApiResponse } from 'src/interfaces/api-response.interface';
 import { UserLike } from 'src/interfaces/like.interface';
 
-@Controller('likes')
+@Controller({
+  path: 'likes',
+  version: '1'
+})
 @UseGuards(AuthGuard)
 export class LikesController {
   constructor(private likesService: LikesService) {}

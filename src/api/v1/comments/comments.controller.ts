@@ -7,7 +7,10 @@ import { ApiResponse } from 'src/interfaces/api-response.interface';
 import { UserComment } from 'src/interfaces/comment.interface';
 
 @UseGuards(AuthGuard)
-@Controller('comments')
+@Controller({
+  path: 'comments',
+  version: '1'
+})
 export class CommentsController {
   constructor(private commentsService: CommentsService) {}
 

@@ -1,23 +1,23 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtModule } from '@nestjs/jwt';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
-import { UserEntity } from './users/user.entity';
-import { PostsModule } from './posts/posts.module';
-import { PostEntity } from './posts/post.entity';
-import { CommentsModule } from './comments/comments.module';
-import { CommentEntity } from './comments/comment.entity';
+import { UsersModule } from './api/v1/users/users.module';
+import { AuthModule } from './api/v1/auth/auth.module';
+import { UserEntity } from './api/v1/users/user.entity';
+import { PostsModule } from './api/v1/posts/posts.module';
+import { PostEntity } from './api/v1/posts/post.entity';
+import { CommentsModule } from './api/v1/comments/comments.module';
+import { CommentEntity } from './api/v1/comments/comment.entity';
 import { SharedModule } from './shared/shared.module';
-import { LikesModule } from './likes/likes.module';
-import { LikeEntity } from './likes/like.entity';
+import { LikesModule } from './api/v1/likes/likes.module';
+import { LikeEntity } from './api/v1/likes/like.entity';
 import { PostExistenceMiddleware } from './middlewares/post-existence.middleware';
 import { UserExistenceMiddleware } from './middlewares/user-existence.middleware';
 import { ActivityCatcherMiddleware } from './middlewares/activity-catcher.middleware';
-import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [

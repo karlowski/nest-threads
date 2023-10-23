@@ -6,7 +6,10 @@ import { SerializedUser } from 'src/types/serialized-user';
 
 @UseGuards(AuthGuard)
 @UseInterceptors(ClassSerializerInterceptor)
-@Controller('users')
+@Controller({
+  path: 'users',
+  version: '1'
+})
 export class UsersController {
   constructor(private usersService: UsersService) {}
 

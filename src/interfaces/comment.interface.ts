@@ -1,5 +1,5 @@
-import { LikeEntity } from "src/likes/like.entity";
-import { PostEntity } from "src/posts/post.entity";
+import { LikeEntity } from "src/api/v1/likes/like.entity";
+import { PostEntity } from "src/api/v1/posts/post.entity";
 
 export interface UserComment {
   id: number;
