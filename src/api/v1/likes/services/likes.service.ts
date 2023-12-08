@@ -36,7 +36,6 @@ export class LikesService {
     const existingLike = await this.likesRepository.findOneBy({ id });
 
     if (!existingLike) {
-      // TODO: exceptions
       throw new HttpException({ message: 'Nothing liked by such parameters' }, HttpStatus.BAD_REQUEST);
     }
 

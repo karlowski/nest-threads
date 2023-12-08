@@ -40,7 +40,6 @@ export class AuthService {
         lastTimeOnline: this.timeService.catchActivityTime() 
       });
 
-      // TODO: general interface { message, data } with generic ???
       return {
         access_token: token
       } 
