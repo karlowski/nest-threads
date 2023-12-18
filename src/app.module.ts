@@ -58,31 +58,35 @@ export class AppModule implements NestModule {
     consumer
       .apply(PostExistenceMiddleware)
       .forRoutes(
-        { path: 'posts/:id', method: RequestMethod.DELETE },
-        { path: 'comments', method: RequestMethod.POST },
-        { path: 'comments/:id', method: RequestMethod.DELETE },
-        'comments/postId/:postId',
-        'likes'
+        { path: 'posts/:id', method: RequestMethod.DELETE, version: ['1'] },
+        { path: 'comments', method: RequestMethod.POST, version: ['1'] },
+        // { path: 'comments/:id', method: RequestMethod.DELETE, version: ['1'] },
+        { path: 'comments/postId/:postId', method: RequestMethod.GET, version: ['1'] },
+        { path: 'likes', method: RequestMethod.POST, version: ['1'] },
+        { path: 'likes', method: RequestMethod.DELETE, version: ['1'] }
       )
       .apply(UserExistenceMiddleware)
       .forRoutes(
-        { path: 'posts', method: RequestMethod.POST },
-        { path: 'posts/:id', method: RequestMethod.GET },
-        { path: 'comments', method: RequestMethod.POST },
-        { path: 'comments/:id', method: RequestMethod.DELETE },
-        'comments/userId/:userId',
-        'likes'
+        { path: 'posts', method: RequestMethod.POST, version: ['1'] },
+        { path: 'posts/:id', method: RequestMethod.GET, version: ['1'] },
+        { path: 'comments', method: RequestMethod.POST, version: ['1'] },
+        // { path: 'comments/:id', method: RequestMethod.DELETE, version: ['1'] },
+        { path: 'comments/postId/:postId', method: RequestMethod.GET, version: ['1'] },
+        { path: 'likes', method: RequestMethod.POST, version: ['1'] },
+        { path: 'likes', method: RequestMethod.DELETE, version: ['1'] }
       )
       .apply(ActivityCatcherMiddleware)
       .forRoutes(
         // { path: 'auth/sign-in', method: RequestMethod.POST },
-        { path: 'posts', method: RequestMethod.POST },
-        { path: 'posts/:id', method: RequestMethod.PUT },
-        { path: 'posts/:id', method: RequestMethod.DELETE },
-        { path: 'comments', method: RequestMethod.POST },
-        { path: 'comments/:id', method: RequestMethod.PUT },
-        { path: 'comments/:id', method: RequestMethod.DELETE },
-        'likes'
+        { path: 'posts', method: RequestMethod.POST, version: ['1'] },
+        { path: 'posts/:id', method: RequestMethod.PUT, version: ['1'] },
+        { path: 'posts/:id', method: RequestMethod.DELETE, version: ['1'] },
+        { path: 'comments', method: RequestMethod.POST, version: ['1'] },
+        { path: 'comments/:id', method: RequestMethod.PUT, version: ['1'] },
+        // { path: 'comments/:id', method: RequestMethod.DELETE, version: ['1'] },
+        { path: 'likes', method: RequestMethod.POST, version: ['1'] },
+        { path: 'likes', method: RequestMethod.DELETE, version: ['1'] }
+        
       );
   }
 }
