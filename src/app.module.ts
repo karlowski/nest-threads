@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 
@@ -22,17 +22,21 @@ import { ActivityCatcherMiddleware } from './middlewares/activity-catcher.middle
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env'
+      envFilePath: '.env',
+      isGlobal: true
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.MYSQL_DB_HOST,
-      port: Number(process.env.MYSQL_DB_PORT),
-      username: process.env.MYSQL_DB_USERNAME,
-      password: process.env.MYSQL_DB_PASSWORD,
-      database: process.env.MYSQL_DB,
-      entities: [UserEntity, PostEntity, CommentEntity, LikeEntity],
-      synchronize: false
+    TypeOrmModule.forRootAsync({
+      useFactory: async (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.getOrThrow('MYSQL_DB_HOST'),
+        port: configService.getOrThrow('MYSQL_DB_PORT'),
+        username: configService.getOrThrow('MYSQL_DB_USERNAME'),
+        password: configService.getOrThrow('MYSQL_DB_PASSWORD'),
+        database: configService.getOrThrow('MYSQL_DB'),
+        entities: [UserEntity, PostEntity, CommentEntity, LikeEntity],
+        synchronize: false
+      }),
+      inject: [ConfigService]
     }),
     JwtModule.register({
       global: true,
