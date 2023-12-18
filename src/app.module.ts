@@ -34,7 +34,7 @@ import { ActivityCatcherMiddleware } from './middlewares/activity-catcher.middle
         password: configService.getOrThrow('MYSQL_DB_PASSWORD'),
         database: configService.getOrThrow('MYSQL_DB'),
         entities: [UserEntity, PostEntity, CommentEntity, LikeEntity],
-        synchronize: false
+        synchronize: configService.getOrThrow('SYNCRONIZE_DB') === 'true'
       }),
       inject: [ConfigService]
     }),
