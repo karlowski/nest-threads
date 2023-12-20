@@ -25,8 +25,8 @@ export class LikesService {
 
     try {
       const createdLike = await this.likesRepository.create({ ...like, creationTime: this.timeService.catchActivityTime() });
-      const savedLike = await this.likesRepository.save(createdLike);
-      return { message: 'Item liked successfully', data: savedLike };
+      await createdLike.save();
+      return { message: 'Item liked successfully', data: createdLike };
     } catch ({ message, status }) {
       throw new HttpException({ message, status }, status);
     }

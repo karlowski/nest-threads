@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 
 import { CommentEntity } from '../entities/comment.entity';
 import { CreateCommentDto } from 'src/api/v1/comments/dto/create-comment-dto';
-import { PostEntity } from 'src/api/v1/posts/entities/post.entity';
 import { TimeService } from 'src/shared/services/time.service';
 import { EntitiesNotFoundException } from 'src/exceptions/entities-not-found.exception';
 import { ApiResponse } from 'src/interfaces/api-response.interface';
@@ -15,8 +14,6 @@ export class CommentsService {
   constructor(
     @InjectRepository(CommentEntity)
     private commentsRepository: Repository<CommentEntity>,
-    @InjectRepository(PostEntity)
-    private postsRepository: Repository<PostEntity>,
     private timeService: TimeService
   ) {}
 
@@ -49,8 +46,8 @@ export class CommentsService {
   async create(commentData: CreateCommentDto): Promise<ApiResponse<UserComment>> {
     try {
       const createdComment = await this.commentsRepository.create({ ...commentData, creationTime: this.timeService.catchActivityTime() });
-      const savedComment = await this.commentsRepository.save(createdComment);
-      return { message: 'Comment posted', data: savedComment };
+      await createdComment.save();
+      return { message: 'Comment posted', data: createdComment };
     } catch (error) {
       throw new BadRequestException(error);
     }

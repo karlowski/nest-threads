@@ -53,8 +53,8 @@ export class PostsService {
 
   async create(post: CreatePostDto): Promise<ApiResponse<UserPost>> {
     try {
-      const newPostData = await this.postsRepository.create({ ...post, creationTime: this.timeService.catchActivityTime() });
-      const createdPost = await this.postsRepository.save(newPostData);
+      const createdPost = await this.postsRepository.create({ ...post, creationTime: this.timeService.catchActivityTime() });
+      await createdPost.save();
       return { message: 'Message posted', data: createdPost };
     } catch (error) {
       throw new BadRequestException(error);
