@@ -50,10 +50,10 @@ export class UsersService {
   async create(user: CreateUserDto): Promise<SerializedUser> {
     try {
       const creationTime = this.timeService.catchActivityTime();
-      const newUserData = await this.usersRepository.create({ ...user, creationTime, lastTimeOnline: creationTime });
-      const savedUser = await this.usersRepository.save(newUserData);
+      const createdUser = await this.usersRepository.create({ ...user, creationTime, lastTimeOnline: creationTime });
+      await createdUser.save();
     
-      return new SerializedUser(savedUser);
+      return new SerializedUser(createdUser);
     } catch (error) {
       throw new BadRequestException(error);
     }
