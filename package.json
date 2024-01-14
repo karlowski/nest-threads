@@ -17,7 +17,11 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "npm run build && npx typeorm -d dist/db/data-source.js",
+    "migration:generate": "npm run typeorm -- migration:generate",
+    "migration:run": "npm run typeorm -- migration:run",
+    "migration:revert": "npm run typeorm -- migration:revert"
   },
   "dependencies": {
     "@nestjs/class-validator": "^0.13.4",
@@ -28,16 +32,18 @@
     "@nestjs/mapped-types": "^2.0.2",
     "@nestjs/passport": "^10.0.2",
     "@nestjs/platform-express": "^10.0.0",
-    "@nestjs/typeorm": "^10.0.0",
+    "@nestjs/typeorm": "^10.0.1",
     "@types/bcrypt": "^5.0.0",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
+    "dotenv": "^16.3.1",
+    "mysql2": "^3.7.0",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
-    "typeorm": "^0.3.17"
+    "typeorm": "^0.3.19"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
